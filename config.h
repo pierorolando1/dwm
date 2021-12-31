@@ -21,8 +21,8 @@ static const int topbar = 1;
 
 // ---------------------------------- Fonts ------------------------------------
 
-static const char *fonts[] = { "UbuntuMono Nerd Font:size=14:weight=bold:antialias=true:autohint:true" };
-static const char dmenufont[] = "UbuntuMono Nerd Font:size=12:antialias=true:autohint=true";
+static const char *fonts[] = { "UbuntuMono Nerd Font:size=11:weight=bold:antialias=true:autohint:true" };
+static const char dmenufont[] = "UbuntuMono Nerd Font:size=9:antialias=true:autohint=true";
 
 // ---------------------------------- Colors -----------------------------------
 
@@ -31,6 +31,13 @@ struct Theme {
     char *active;
     char *bg;
     char *focus;
+};
+
+static const struct Theme tokyo = {
+    .inactive = "#4c566a",
+    .active = "#ffffff",
+    .bg = "#1a1b26",
+    .focus = "#7aa2f7"
 };
 
 static const struct Theme material = {
@@ -63,24 +70,30 @@ static const struct Theme monokai_pro = {
 
 static const char window_border[] = "#000000";
 
+
 static const char *colors[][3] = {
     // fg                 bg             border   
+    { tokyo.inactive, tokyo.bg, window_border },
+    { tokyo.active, tokyo.focus, tokyo.focus },
+
     { material.inactive, material.bg, window_border },
     { material.active, material.focus,  material.focus  },
 
+
+
     { onedark.inactive, onedark.bg, window_border },
     { onedark.active, onedark.focus,  onedark.focus  },
-
+    
     { nord.inactive, nord.bg, window_border },
     { nord.active, nord.focus,  nord.focus  },
-
+    
     { monokai_pro.inactive, monokai_pro.bg, window_border },
     { monokai_pro.active, monokai_pro.focus,  monokai_pro.focus },
 };
 
 // -------------------------------- Workspaces ---------------------------------
 
-static const char *tags[] = { " ", " ", " ", " ", " ", "  ", " ", " ", " " };
+static const char *tags[] = { "   ", "   ", "  ", "  ",  "  ", "  ", "  " };
 
 static const Rule rules[] = {
     /* xprop(1):
@@ -186,6 +199,8 @@ static Key keys[] = {
     // Quit dwm
     { MODKEY|ControlMask, XK_q, quit, {0} },
 
+    { MODKEY|ControlMask, XK_s, spawn, {.v = termcmd } },
+
     // ---------------- Workspaces -----------------
 
     TAGKEYS(XK_1, 0)
@@ -213,22 +228,27 @@ static Key keys[] = {
     { MODKEY, XK_Return, spawn, SHCMD("alacritty") },
 
     // File explorer
-    { MODKEY, XK_e, spawn, SHCMD("pcmanfm") },
+    { MODKEY, XK_e, spawn, SHCMD("thunar") },
 
     // Browser
-    { MODKEY, XK_b, spawn, SHCMD("firefox") },
+    { MODKEY, XK_b, spawn, SHCMD("brave") },
 
+    // VSCode
+    { MODKEY, XK_c, spawn, SHCMD("code") },
+    
     // Redshift
     { MODKEY, XK_r, spawn, SHCMD("redshift -O 2400") },
     { MODKEY|ShiftMask, XK_r, spawn, SHCMD("redshift -x") },
 
     // Screenshot
-    { MODKEY, XK_s, spawn, SHCMD("scrot") },
+    { MODKEY, XK_s, spawn, SHCMD("spectacle") },
     { MODKEY|ShiftMask, XK_s, spawn, SHCMD("scrot -s") },
 
     // ----------------- Hardware ------------------
 
-    // Volume
+    // Volume 
+    { MODKEY, XK_d, spawn, SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -5%") },
+    { MODKEY, XK_u, spawn, SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +5%") },
     {0, XF86XK_AudioLowerVolume, spawn, SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -5%")},
     {0, XF86XK_AudioRaiseVolume, spawn, SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +5%")},
     {0, XF86XK_AudioMute, spawn, SHCMD("pactl set-sink-mute @DEFAULT_SINK@ toggle")},
