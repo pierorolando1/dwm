@@ -37,7 +37,7 @@ scripts.
 ```bash
 # dwm & dwmblocks
 cd ~/.config
-git clone https://github.com/antoniosarosi/dwm.git
+git clone https://github.com/pierorolando1/dwm.git
 mkdir -p ~/.local/share/dwm
 ln -s ~/.config/dwm/autostart.sh ~/.local/share/dwm
 
